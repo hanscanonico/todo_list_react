@@ -7,15 +7,15 @@ interface Props {
 }
 
 function AddTaskModal({ isOpen, onClose, onAdd }: Props) {
-    const [taskName, setTaskName] = useState('');
+    const [taskName, setTaskName] = useState('')
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        onAdd(taskName);
-        onClose();
-    };
+        e.preventDefault()
+        onAdd(taskName)
+        onClose()
+    }
 
-    if (!isOpen) return null;
+    if (!isOpen) return null
 
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-start pt-40">
@@ -42,7 +42,7 @@ function AddTaskModal({ isOpen, onClose, onAdd }: Props) {
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default AddTaskModal

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import AddButton from "../../components/buttons/AddButton";
-import List from "./List";
-import AddListModal from "./AddListModal";
+import { useState } from "react"
+import AddButton from "../../components/buttons/AddButton"
+import List from "./List"
+import AddListModal from "./AddListModal"
 
 interface Props {
     lists: { id: number, name: string }[]
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ListContainer({ lists, setLists }: Props) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen)

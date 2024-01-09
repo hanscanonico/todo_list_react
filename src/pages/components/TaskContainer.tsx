@@ -3,7 +3,7 @@ import Task from './Task'
 
 interface Props {
     tasks: { id: number, name: string, isDone: boolean }[]
-    setTasks: React.Dispatch<React.SetStateAction<{ id: number, name: string; isDone: boolean, listId: number }[]>>;
+    setTasks: React.Dispatch<React.SetStateAction<{ id: number, name: string, isDone: boolean, listId: number }[]>>
 }
 
 function TaskContainer({ tasks, setTasks }: Props) {

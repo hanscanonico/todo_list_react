@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import EditButton from '../../components/buttons/EditButton'
 import DeleteButton from '../../components/buttons/DeleteButton'
 import { CheckIcon } from '@radix-ui/react-icons'
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 
 interface Props {
-    task: { id: number, name: string; isDone: boolean }
+    task: { id: number, name: string, isDone: boolean }
     setTasks: React.Dispatch<React.SetStateAction<{ id: number, name: string, isDone: boolean, listId: number }[]>>
 }
 
@@ -21,7 +21,7 @@ function Task({ task, setTasks }: Props) {
         defaultValues: {
             name: task.name
         }
-    });
+    })
 
     const onSubmit = handleSubmit((data) => {
         setTasks(prevTasks => prevTasks.map(t => t.id === task.id ? { ...t, name: data.name } : t))
@@ -66,4 +66,4 @@ function Task({ task, setTasks }: Props) {
     )
 }
 
-export default Task;
+export default Task
