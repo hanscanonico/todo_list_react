@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import DeleteButton from '../../components/buttons/DeleteButton'
-import EditButton from '../../components/buttons/EditButton'
+import React, { useContext, useState } from 'react'
+import DeleteButton from '../../../components/buttons/DeleteButton'
+import EditButton from '../../../components/buttons/EditButton'
 import { useForm } from 'react-hook-form'
 import { CheckIcon } from '@radix-ui/react-icons'
-
+import { HomePageContext } from '../HomePageContext'
 
 interface Props {
     list: { id: number, name: string }
     isLast: boolean
-    setLists: React.Dispatch<React.SetStateAction<{ id: number, name: string }[]>>
 }
 
 interface FormValues {
     name: string
 }
 
-function List({ list, isLast, setLists }: Props) {
+function ListItem({ list, isLast }: Props) {
     const className = isLast ? 'py-2 text-lg' : 'py-2 border-b border-gray-600 text-lg'
     const [isEditing, setIsEditing] = useState(false)
     const [newName, setNewName] = useState(list.name)
+    const { updateList, deleteList } = useContext(HomePageContext)
 
     const { register, handleSubmit, reset } = useForm<FormValues>({
         defaultValues: {
@@ -27,14 +27,10 @@ function List({ list, isLast, setLists }: Props) {
     })
 
     const onSubmit = handleSubmit((data) => {
-        setLists(prevLists => prevLists.map(l => l.id === list.id ? { ...l, name: data.name } : l))
         setIsEditing(false)
+        updateList.mutate({ ...list, name: data.name })
         reset({ name: data.name })
     })
-
-    const deleteList = () => {
-        setLists(prevLists => prevLists.filter(l => l.id !== list.id))
-    }
 
     return (
         <li className={className}>
@@ -65,10 +61,10 @@ function List({ list, isLast, setLists }: Props) {
                     </div>
                     <EditButton onClick={() => setIsEditing(true)} />
                 </div>
-                <DeleteButton onClick={deleteList} />
+                <DeleteButton onClick={() => deleteList.mutate(list.id)} />
             </div>
         </li>
     )
 }
 
-export default List
+export default ListItem

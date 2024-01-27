@@ -1,21 +1,24 @@
-import React, { useState } from 'react'
-import EditButton from '../../components/buttons/EditButton'
-import DeleteButton from '../../components/buttons/DeleteButton'
+import React, { useContext, useState } from 'react'
+import EditButton from '../../../components/buttons/EditButton'
+import DeleteButton from '../../../components/buttons/DeleteButton'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
+import { Task } from '../../../types'
+import { HomePageContext } from '../HomePageContext'
 
 interface Props {
-    task: { id: number, name: string, isDone: boolean }
-    setTasks: React.Dispatch<React.SetStateAction<{ id: number, name: string, isDone: boolean, listId: number }[]>>
+    task: Task
 }
 
 interface FormValues {
     name: string
 }
 
-function Task({ task, setTasks }: Props) {
+function TaskItem({ task }: Props) {
     const [isEditing, setIsEditing] = useState(false)
     const [newName, setNewName] = useState(task.name)
+
+    const { removeTask, updateTask } = useContext(HomePageContext)
 
     const { register, handleSubmit, reset } = useForm<FormValues>({
         defaultValues: {
@@ -24,17 +27,13 @@ function Task({ task, setTasks }: Props) {
     })
 
     const onSubmit = handleSubmit((data) => {
-        setTasks(prevTasks => prevTasks.map(t => t.id === task.id ? { ...t, name: data.name } : t))
         setIsEditing(false)
+        updateTask.mutate({ ...task, name: data.name })
         reset({ name: data.name })
     })
 
     const startEditing = () => {
         setIsEditing(true)
-    }
-
-    const deleteTask = () => {
-        setTasks(prevTasks => prevTasks.filter(t => t.id !== task.id))
     }
 
     return (
@@ -61,9 +60,13 @@ function Task({ task, setTasks }: Props) {
                 )}
                 <EditButton onClick={startEditing} />
             </div>
-            <DeleteButton onClick={deleteTask} />
+            <DeleteButton onClick={() => {
+                if (task.id) {
+                    removeTask.mutate([task.list_id, task.id])
+                }
+            }} />
         </div >
     )
 }
 
-export default Task
+export default TaskItem

@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { HomePageContext } from '../HomePageContext'
 
 interface Props {
     isOpen: boolean
     onClose: () => void
-    onAdd: (listName: string) => void
 }
 
-function AddTaskModal({ isOpen, onClose, onAdd }: Props) {
+function AddTaskModal({ isOpen, onClose }: Props) {
     const [taskName, setTaskName] = useState('')
+
+    const { addTask, lists } = useContext(HomePageContext)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        onAdd(taskName)
+        addTask.mutate({ name: taskName, listId: lists[0].id })
         onClose()
     }
 
