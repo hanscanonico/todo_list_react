@@ -12,7 +12,7 @@ import {
     useQueryClient,
 } from '@tanstack/react-query'
 import { createListApi, deleteListApi, fetchLists, updateListApi } from '../../api/listApi'
-import { createTask, deleteTask, fetchTasks, updateTaskApi } from '../../api/taskApi'
+import { createTaskApi, deleteTask, fetchTasks, toogleTaskApi, updateTaskApi } from '../../api/taskApi'
 import { HomePageContext } from './HomePageContext'
 import { List, NewTask, Task } from '../../types'
 import { getToken, removeToken } from '../../functions'
@@ -24,13 +24,21 @@ function HomePage() {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
+    const refreshLists = () => {
+        queryClient.invalidateQueries({ queryKey: ['getLists'] })
+    }
+
+    const refreshTasks = (listId: number) => {
+        queryClient.invalidateQueries({ queryKey: ['getTasks', listId] })
+    }
+
     const { isPending: isPendingLists, error: errorLists, data: lists } = useQuery({
         queryKey: ['getLists'],
         queryFn: () => fetchLists(token)
     })
 
     const { isPending: isPendingTasks, error: errorTasks, data: tasks } = useQuery({
-        queryKey: ['getTasks'],
+        queryKey: ['getTasks', selectedListId],
         queryFn: () => fetchTasks(token, selectedListId),
         enabled: !!selectedListId,
     })
@@ -62,9 +70,9 @@ function HomePage() {
         },
     })
 
-    const addTask: UseMutationResult<NewTask, Error, NewTask> = useMutation({
+    const createTask: UseMutationResult<NewTask, Error, NewTask> = useMutation({
         mutationFn: (task: NewTask) => {
-            return createTask(token, task.listId, task.name)
+            return createTaskApi(token, task.listId, task.name)
         },
         onSuccess: (_data) => {
             queryClient.invalidateQueries({ queryKey: ['getTasks'] })
@@ -89,11 +97,20 @@ function HomePage() {
         },
     })
 
+    const toogleTask = useMutation<Task, Error, Task>({
+        mutationFn: async (task: Task) => {
+            return toogleTaskApi(token, task.list_id, task.id)
+        },
+        onSuccess: (_data) => {
+            queryClient.invalidateQueries({ queryKey: ['getTasks'] })
+        },
+    })
+
     useEffect(() => {
-        if (!isPendingLists) {
+        if (!isPendingLists && !selectedListId) {
             setSelectedListId(lists[0].id)
         }
-    }, [isPendingLists, setSelectedListId, lists])
+    }, [isPendingLists, setSelectedListId, lists, selectedListId])
 
     useEffect(() => {
         if (!token) {
@@ -122,10 +139,14 @@ function HomePage() {
         errorLists,
         errorTasks,
         setSelectedListId,
-        addTask,
+        createTask,
         updateTask,
         removeTask,
         deleteList,
+        toogleTask,
+        selectedListId,
+        refreshLists,
+        refreshTasks,
     }
 
     return (

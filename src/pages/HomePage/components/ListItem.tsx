@@ -15,10 +15,14 @@ interface FormValues {
 }
 
 function ListItem({ list, isLast }: Props) {
-    const className = isLast ? 'py-2 text-lg' : 'py-2 border-b border-gray-600 text-lg'
+
     const [isEditing, setIsEditing] = useState(false)
     const [newName, setNewName] = useState(list.name)
-    const { updateList, deleteList } = useContext(HomePageContext)
+    const { updateList, deleteList, selectedListId, setSelectedListId, refreshTasks } = useContext(HomePageContext)
+
+    const isSelected = selectedListId === list.id
+    const selectedClassNames = isSelected ? 'bg-gray-800 text-white' : 'bg-gray-700 text-gray-300'
+    const className = `${isLast ? 'rounded-md py-2 text-lg' : 'rounded-md py-2 border-b border-gray-600 text-lg'} ${selectedClassNames}`
 
     const { register, handleSubmit, reset } = useForm<FormValues>({
         defaultValues: {
@@ -32,8 +36,13 @@ function ListItem({ list, isLast }: Props) {
         reset({ name: data.name })
     })
 
+    const setDefaultList = () => {
+        setSelectedListId(list.id)
+        refreshTasks(list.id)
+    }
+
     return (
-        <li className={className}>
+        <li className={className} onClick={setDefaultList} onKeyUp={setDefaultList}>
             <div className="group flex items-center">
                 <div className="flex items-center flex-1">
                     <div>
@@ -59,9 +68,9 @@ function ListItem({ list, isLast }: Props) {
                         )}
 
                     </div>
-                    <EditButton onClick={() => setIsEditing(true)} />
+                    <EditButton onClick={() => setIsEditing(true)} hidden={!isSelected} />
                 </div>
-                <DeleteButton onClick={() => deleteList.mutate(list.id)} />
+                <DeleteButton onClick={() => deleteList.mutate(list.id)} hidden={!isSelected} />
             </div>
         </li>
     )

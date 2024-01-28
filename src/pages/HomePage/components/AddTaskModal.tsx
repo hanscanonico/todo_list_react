@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { HomePageContext } from '../HomePageContext'
 
 interface Props {
@@ -8,12 +8,16 @@ interface Props {
 
 function AddTaskModal({ isOpen, onClose }: Props) {
     const [taskName, setTaskName] = useState('')
+    console.log('taskName', taskName)
 
-    const { addTask, lists } = useContext(HomePageContext)
+    const { createTask, selectedListId } = useContext(HomePageContext)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        addTask.mutate({ name: taskName, listId: lists[0].id })
+        if (selectedListId) {
+            createTask.mutate({ name: taskName, listId: selectedListId })
+        }
+        setTaskName('')
         onClose()
     }
 
@@ -24,7 +28,7 @@ function AddTaskModal({ isOpen, onClose }: Props) {
             <div className="bg-white p-5 rounded">
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="listName" className="block text-gray-700 text-sm font-bold mb-2">
-                        Task Name:
+                        Task Name
                     </label>
                     <input
                         type="text"

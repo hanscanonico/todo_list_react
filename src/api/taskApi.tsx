@@ -1,6 +1,7 @@
 const BASE_URL = 'http://localhost:3000'
 
 export const fetchTasks = async (token: string, listId: number | null) => {
+    console.log('fetchTasks listId', listId)
     if (!listId) return []
     try {
         const response = await fetch(`${BASE_URL}/lists/${listId}/tasks`, {
@@ -13,6 +14,7 @@ export const fetchTasks = async (token: string, listId: number | null) => {
 
         if (response.ok) {
             const data = await response.json()
+            console.log('data', data)
             return data
         }
 
@@ -23,7 +25,7 @@ export const fetchTasks = async (token: string, listId: number | null) => {
     }
 }
 
-export const createTask = async (token: string, listId: number, taskName: string) => {
+export const createTaskApi = async (token: string, listId: number, taskName: string) => {
     try {
         const response = await fetch(`${BASE_URL}/lists/${listId}/tasks`, {
             method: 'POST',
@@ -90,4 +92,26 @@ export const deleteTask = async (token: string, listId: number, taskId: number) 
         console.error('Error:', error)
     }
 
+}
+
+export const toogleTaskApi = async (token: string, listId: number, taskId: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/lists/${listId}/tasks/${taskId}/toggle`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            return data
+        }
+
+        throw new Error(`HTTP error! status: ${response.status}`)
+
+    } catch (error) {
+        console.error('Error:', error)
+    }
 }

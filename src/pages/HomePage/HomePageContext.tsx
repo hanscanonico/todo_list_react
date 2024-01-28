@@ -10,12 +10,16 @@ interface HomePageContextType {
     errorLists: Error | null
     errorTasks: Error | null
     setSelectedListId: React.Dispatch<React.SetStateAction<number | null>>
-    addTask: UseMutationResult<NewTask, Error, NewTask>
+    createTask: UseMutationResult<NewTask, Error, NewTask>
     updateTask: UseMutationResult<Task, Error, Task>
     removeTask: UseMutationResult<number, Error, [number, number]>
     createList: UseMutationResult<List, Error, string>
     updateList: UseMutationResult<List, Error, List>,
     deleteList: UseMutationResult<number, Error, number>
+    toogleTask: UseMutationResult<Task, Error, Task>
+    selectedListId: number | null
+    refreshLists: () => void
+    refreshTasks: (listId: number) => void
 }
 
 
@@ -27,11 +31,15 @@ export const HomePageContext = createContext<HomePageContextType>({
     errorLists: null,
     errorTasks: null,
     setSelectedListId: () => { },
-    addTask: {} as UseMutationResult<NewTask, Error, NewTask>,
+    createTask: {} as UseMutationResult<NewTask, Error, NewTask>,
     updateTask: {} as UseMutationResult<Task, Error, Task>,
     removeTask: {} as UseMutationResult<number, Error, [number, number]>,
     createList: {} as UseMutationResult<List, Error, string>,
     updateList: {} as UseMutationResult<List, Error, List>,
     deleteList: {} as UseMutationResult<number, Error, number>,
+    toogleTask: {} as UseMutationResult<Task, Error, Task>,
+    selectedListId: null,
+    refreshLists: () => { },
+    refreshTasks: () => { },
 })
 

@@ -18,7 +18,7 @@ function TaskItem({ task }: Props) {
     const [isEditing, setIsEditing] = useState(false)
     const [newName, setNewName] = useState(task.name)
 
-    const { removeTask, updateTask } = useContext(HomePageContext)
+    const { removeTask, updateTask, toogleTask } = useContext(HomePageContext)
 
     const { register, handleSubmit, reset } = useForm<FormValues>({
         defaultValues: {
@@ -36,9 +36,19 @@ function TaskItem({ task }: Props) {
         setIsEditing(true)
     }
 
+    const handleCheckboxChange = () => {
+        toogleTask.mutate(task)
+    }
+
     return (
         <div className="group flex items-center mb-3 p-4 border border-gray-600 rounded-lg bg-gray-700">
             <div className="flex items-center flex-1">
+                <input
+                    type="checkbox"
+                    checked={task.done}
+                    onChange={handleCheckboxChange}
+                    className="ml-2"
+                />
                 {isEditing ? (
                     <form onSubmit={onSubmit} className="flex flex-1">
                         <input
@@ -54,7 +64,8 @@ function TaskItem({ task }: Props) {
                         </button>
                     </form>
                 ) : (
-                    <label htmlFor={`task-${task.id}`} className="ml-2 text-lg text-gray-300 flex-none">
+                    <label htmlFor={`task-${task.id}`} className={`ml-2 text-lg flex-none ${task.done ? 'line-through text-gray-500' : 'text-gray-300'}`}
+                    >
                         {task.name}
                     </label>
                 )}
