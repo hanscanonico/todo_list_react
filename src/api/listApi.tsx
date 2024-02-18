@@ -87,4 +87,28 @@ export const deleteListApi = async (token: string, listId: number) => {
         console.error('Error:', error)
     }
 
-} 
+}
+
+export const switchListOrderApi = async (token: string, listId: number, otherListId: number) => {
+
+    try {
+        const response = await fetch(`${BASE_URL}/lists/${listId}/switch_order`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id2: otherListId })
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            return data
+        }
+
+        throw new Error(`HTTP error! status: ${response.status}`)
+    } catch (error) {
+        console.error('Error:', error)
+    }
+
+}

@@ -1,24 +1,33 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import EditButton from '../../../components/buttons/EditButton'
 import DeleteButton from '../../../components/buttons/DeleteButton'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { Task } from '../../../types'
 import { HomePageContext } from '../HomePageContext'
+import { useDrag, useDrop } from 'react-dnd'
 
 interface Props {
     task: Task
+    setLastHoveredTaskId: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 interface FormValues {
     name: string
 }
 
-function TaskItem({ task }: Props) {
+function TaskItem({ task, setLastHoveredTaskId }: Props) {
     const [isEditing, setIsEditing] = useState(false)
     const [newName, setNewName] = useState(task.name)
 
     const { removeTask, updateTask, toogleTask } = useContext(HomePageContext)
+    const [, dragRef] = useDrag(() => ({
+        type: 'TASK',
+        item: { id: task.id },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }))
 
     const { register, handleSubmit, reset } = useForm<FormValues>({
         defaultValues: {
@@ -40,8 +49,22 @@ function TaskItem({ task }: Props) {
         toogleTask.mutate(task)
     }
 
+    const [, drop] = useDrop({
+        accept: 'TASK',
+        hover: (item: { id: number, type: string }) => {
+            console.log('hover', item.id, task.id)
+            if (item.id !== task.id) {
+                setLastHoveredTaskId(task.id);
+            }
+        },
+    });
+
+    const ref = useRef<HTMLDivElement>(null)
+    dragRef(drop(ref))
+
+
     return (
-        <div className="group flex items-center mb-3 p-4 border border-gray-600 rounded-lg bg-gray-700">
+        <div ref={ref} className="group flex items-center mb-3 p-4 border border-gray-600 rounded-lg bg-gray-700">
             <div className="flex items-center flex-1">
                 <input
                     type="checkbox"

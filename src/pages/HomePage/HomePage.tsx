@@ -11,10 +11,10 @@ import {
     useQuery,
     useQueryClient,
 } from '@tanstack/react-query'
-import { createListApi, deleteListApi, fetchLists, updateListApi } from '../../api/listApi'
-import { createTaskApi, deleteTask, fetchTasks, toogleTaskApi, updateTaskApi } from '../../api/taskApi'
+import { createListApi, deleteListApi, fetchLists, switchListOrderApi, updateListApi } from '../../api/listApi'
+import { createTaskApi, deleteTask, fetchTasks, toogleTaskApi, updateTaskApi, switchTaskOrderApi } from '../../api/taskApi'
 import { HomePageContext } from './HomePageContext'
-import { List, NewTask, Task } from '../../types'
+import { List, NewTask, SwitchListOrderPayload, SwitchTaskOrderPayload, Task } from '../../types'
 import { getToken, removeToken } from '../../functions'
 
 
@@ -106,6 +106,24 @@ function HomePage() {
         },
     })
 
+    const switchTaskOrder = useMutation<Task, Error, SwitchTaskOrderPayload>({
+        mutationFn: async ({ task, otherTask }) => {
+            return switchTaskOrderApi(token, task.list_id, task.id, otherTask.id)
+        },
+        onSuccess: (_data) => {
+            queryClient.invalidateQueries({ queryKey: ['getTasks'] })
+        },
+    })
+
+    const switchListOrder = useMutation<List, Error, SwitchListOrderPayload>({
+        mutationFn: async ({ list, otherList }) => {
+            return switchListOrderApi(token, list.id, otherList.id)
+        },
+        onSuccess: (_data) => {
+            queryClient.invalidateQueries({ queryKey: ['getLists'] })
+        },
+    })
+
     useEffect(() => {
         if (!isPendingLists && !selectedListId) {
             setSelectedListId(lists[0].id)
@@ -144,6 +162,8 @@ function HomePage() {
         removeTask,
         deleteList,
         toogleTask,
+        switchTaskOrder,
+        switchListOrder,
         selectedListId,
         refreshLists,
         refreshTasks,

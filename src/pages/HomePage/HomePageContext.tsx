@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { Task, List, NewTask } from '../../types'
+import { Task, List, NewTask, SwitchTaskOrderPayload, SwitchListOrderPayload } from '../../types'
 import { UseMutationResult } from '@tanstack/react-query'
 
 interface HomePageContextType {
@@ -17,9 +17,11 @@ interface HomePageContextType {
     updateList: UseMutationResult<List, Error, List>,
     deleteList: UseMutationResult<number, Error, number>
     toogleTask: UseMutationResult<Task, Error, Task>
+    switchTaskOrder: UseMutationResult<Task, Error, SwitchTaskOrderPayload>
     selectedListId: number | null
     refreshLists: () => void
     refreshTasks: (listId: number) => void
+    switchListOrder: UseMutationResult<List, Error, SwitchListOrderPayload>
 }
 
 
@@ -41,5 +43,7 @@ export const HomePageContext = createContext<HomePageContextType>({
     selectedListId: null,
     refreshLists: () => { },
     refreshTasks: () => { },
+    switchTaskOrder: {} as UseMutationResult<Task, Error, SwitchTaskOrderPayload>,
+    switchListOrder: {} as UseMutationResult<List, Error, SwitchListOrderPayload>
 })
 
