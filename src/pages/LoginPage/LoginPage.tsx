@@ -24,7 +24,6 @@ function LoginPage() {
             })
 
             if (!response.ok) {
-                console.log(response)
                 throw new Error(`HTTP error! status: ${response.status}`)
             }
 
@@ -34,7 +33,6 @@ function LoginPage() {
                 setToken(token)
                 navigate('/')
             } else {
-                console.log('response:', response)
                 throw new Error('No token received')
             }
         } catch (error) {

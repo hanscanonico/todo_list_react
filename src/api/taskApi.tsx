@@ -1,7 +1,6 @@
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 export const fetchTasks = async (token: string, listId: number | null) => {
-    console.log('fetchTasks listId', listId)
     if (!listId) return []
     try {
         const response = await fetch(`${BASE_URL}/lists/${listId}/tasks`, {
@@ -14,7 +13,6 @@ export const fetchTasks = async (token: string, listId: number | null) => {
 
         if (response.ok) {
             const data = await response.json()
-            console.log('data', data)
             return data
         }
 

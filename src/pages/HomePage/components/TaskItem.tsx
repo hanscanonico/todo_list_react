@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import EditButton from '../../../components/buttons/EditButton'
 import DeleteButton from '../../../components/buttons/DeleteButton'
 import { CheckIcon } from '@radix-ui/react-icons'
@@ -52,7 +52,6 @@ function TaskItem({ task, setLastHoveredTaskId }: Props) {
     const [, drop] = useDrop({
         accept: 'TASK',
         hover: (item: { id: number, type: string }) => {
-            console.log('hover', item.id, task.id)
             if (item.id !== task.id) {
                 setLastHoveredTaskId(task.id);
             }

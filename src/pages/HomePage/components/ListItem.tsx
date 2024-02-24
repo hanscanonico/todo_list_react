@@ -54,7 +54,6 @@ function ListItem({ list, isLast, setLastHoveredListId }: Props) {
     const [, drop] = useDrop({
         accept: 'LIST',
         hover: (item: { id: number, type: string }) => {
-            console.log('hover', item.id, list.id)
             if (item.id !== list.id) {
                 setLastHoveredListId(list.id)
             }

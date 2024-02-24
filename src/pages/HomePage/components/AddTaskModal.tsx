@@ -8,7 +8,6 @@ interface Props {
 
 function AddTaskModal({ isOpen, onClose }: Props) {
     const [taskName, setTaskName] = useState('')
-    console.log('taskName', taskName)
 
     const { createTask, selectedListId } = useContext(HomePageContext)
 

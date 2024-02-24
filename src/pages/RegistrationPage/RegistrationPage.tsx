@@ -23,12 +23,9 @@ function RegistrationPage() {
             })
 
             if (!response.ok) {
-                console.log(response)
                 throw new Error(`HTTP error! status: ${response.status}`)
             }
 
-            const data = await response.json();
-            console.log('Registration successful:', data)
         } catch (error) {
             console.error('Registration failed:', error)
         }
