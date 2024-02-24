@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "1.4.1"
+    "@biomejs/biome": "1.4.1",
+    "@flydotio/dockerfile": "^0.5.2"
   }
 }
