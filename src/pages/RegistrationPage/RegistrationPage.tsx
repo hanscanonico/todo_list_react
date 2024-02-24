@@ -3,13 +3,15 @@ import React, { useState } from 'react'
 function RegistrationPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+
     // Include other state variables as needed, like confirmPassword, username, etc.
 
     const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         try {
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch(`${BASE_URL}/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

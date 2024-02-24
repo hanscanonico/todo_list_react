@@ -6,11 +6,12 @@ function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+    const BASE_URL = process.env.REACT_APP_BASE_URL
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/users/sign_in', {
+            const response = await fetch(`${BASE_URL}/users/sign_in`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
