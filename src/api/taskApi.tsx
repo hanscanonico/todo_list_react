@@ -115,3 +115,27 @@ export const toogleTaskApi = async (token: string, listId: number, taskId: numbe
         console.error('Error:', error)
     }
 }
+
+export const switchTaskOrderApi = async (token: string, listId: number, taskId: number, otherTaskId: number) => {
+
+    try {
+        const response = await fetch(`${BASE_URL}/lists/${listId}/tasks/${taskId}/switch_order`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id2: otherTaskId })
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            return data
+        }
+
+        throw new Error(`HTTP error! status: ${response.status}`)
+
+    } catch (error) {
+        console.error('Error:', error)
+    }
+}

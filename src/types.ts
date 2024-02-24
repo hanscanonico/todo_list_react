@@ -14,3 +14,13 @@ export interface NewTask {
 	name: string
 	listId: number
 }
+
+export interface SwitchTaskOrderPayload {
+	task: Task
+	otherTask: Task
+}
+
+export interface SwitchListOrderPayload {
+	list: List
+	otherList: List
+}
