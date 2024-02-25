@@ -125,7 +125,7 @@ function HomePage() {
     })
 
     useEffect(() => {
-        if (!isPendingLists && !selectedListId) {
+        if (!isPendingLists && !selectedListId && lists.length > 0) {
             setSelectedListId(lists[0].id)
         }
     }, [isPendingLists, setSelectedListId, lists, selectedListId])
