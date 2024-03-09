@@ -1,36 +1,15 @@
 import React, { useState } from 'react'
+import { registrationApi } from '../../api/userApi'
 
 function RegistrationPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const BASE_URL = process.env.REACT_APP_BASE_URL
-
-    // Include other state variables as needed, like confirmPassword, username, etc.
 
     const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        try {
-            const response = await fetch(`${BASE_URL}/users`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user: {
-                        email: email,
-                        password: password
-                    }
-                }),
-            })
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-        } catch (error) {
-            console.error('Registration failed:', error)
-        }
+        registrationApi(email, password).then(() => {
+            console.log('Registration successful')
+        })
     }
 
     return (

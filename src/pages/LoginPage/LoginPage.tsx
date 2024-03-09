@@ -1,44 +1,22 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setToken } from '../../functions'
+import { loginApi } from '../../api/userApi'
 
 function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    const BASE_URL = process.env.REACT_APP_BASE_URL
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`${BASE_URL}/users/sign_in`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user: {
-                        email: email,
-                        password: password
-                    }
-                }),
-            })
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-            const token = response.headers.get('Authorization')?.split(' ')[1]
-
+        loginApi(email, password).then((token) => {
             if (token) {
+                console.log('my token :', token)
                 setToken(token)
                 navigate('/')
-            } else {
-                throw new Error('No token received')
             }
-        } catch (error) {
-            console.error('Login failed:', error)
-        }
+        })
     }
 
     const goToRegistrationPage = () => {

@@ -16,6 +16,7 @@ import { createTaskApi, deleteTask, fetchTasks, toogleTaskApi, updateTaskApi, sw
 import { HomePageContext } from './HomePageContext'
 import { List, NewTask, SwitchListOrderPayload, SwitchTaskOrderPayload, Task } from '../../types'
 import { getToken, removeToken } from '../../functions'
+import { logoutApi } from '../../api/userApi'
 
 
 function HomePage() {
@@ -137,8 +138,10 @@ function HomePage() {
     }, [token, navigate])
 
     const handleDisconnect = () => {
-        removeToken()
-        navigate('/login')
+        logoutApi(token).then(() => {
+            removeToken()
+            navigate('/login')
+        })
     }
 
     const [isModalOpen, setIsModalOpen] = React.useState(false)
