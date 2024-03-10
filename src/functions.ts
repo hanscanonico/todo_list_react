@@ -1,7 +1,6 @@
 export const getToken = () => {
 	const token = localStorage.getItem("token")
 	if (!token) return null
-	console.log("token", token)
 	let tokenData
 	try {
 		tokenData = JSON.parse(token)

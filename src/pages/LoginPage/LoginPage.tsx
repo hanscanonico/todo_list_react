@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { setToken } from '../../functions'
-import { loginApi } from '../../api/userApi'
+import { setToken } from 'functions'
+import { loginApi } from 'api/userApi'
+import Button from 'ui/Button'
 
 function LoginPage() {
     const [email, setEmail] = useState('')
@@ -12,7 +13,6 @@ function LoginPage() {
         e.preventDefault();
         loginApi(email, password).then((token) => {
             if (token) {
-                console.log('my token :', token)
                 setToken(token)
                 navigate('/')
             }
@@ -52,18 +52,8 @@ function LoginPage() {
                         />
                     </div>
                     <div className="flex items-center justify-start mt-4">
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-                            type="submit"
-                        >
-                            Sign In
-                        </button>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="button" onClick={goToRegistrationPage}
-                        >
-                            Registration
-                        </button>
+                        <Button type="submit" name="Sign In" mr={2} />
+                        <Button type="button" name="Registration" onClick={goToRegistrationPage} />
                     </div>
 
                 </form>

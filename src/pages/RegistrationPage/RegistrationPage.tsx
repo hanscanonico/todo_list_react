@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { registrationApi } from '../../api/userApi'
+import Button from '../../ui/Button'
 
 function RegistrationPage() {
     const [email, setEmail] = useState('')
@@ -53,12 +54,7 @@ function RegistrationPage() {
                         />
                     </div>
                     <div className="flex items-center justify-start mt-4">
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-                            type="submit"
-                        >
-                            Register
-                        </button>
+                        <Button type="submit" name="Register" />
                     </div>
                 </form>
             </div>
