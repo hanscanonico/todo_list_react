@@ -1,3 +1,4 @@
+import React from 'react';
 import { getColorClassName } from './functions'
 import { Color } from './constants'
 
