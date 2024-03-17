@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import type React from 'react'
+import { useContext, useState } from 'react'
 import { HomePageContext } from '../HomePageContext'
 
 interface Props {

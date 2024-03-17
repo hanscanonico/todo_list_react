@@ -1,9 +1,10 @@
-import React, { useContext, useRef, useState } from 'react'
+import type React from 'react'
+import { useContext, useRef, useState } from 'react'
 import EditButton from '../../../components/buttons/EditButton'
 import DeleteButton from '../../../components/buttons/DeleteButton'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 import { HomePageContext } from '../HomePageContext'
 import { useDrag, useDrop } from 'react-dnd'
 

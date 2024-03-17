@@ -1,4 +1,5 @@
-import React, { useContext, useState, useRef } from 'react'
+import type React from 'react'
+import { useContext, useState, useRef } from 'react'
 import DeleteButton from '../../../components/buttons/DeleteButton'
 import EditButton from '../../../components/buttons/EditButton'
 import { useForm } from 'react-hook-form'

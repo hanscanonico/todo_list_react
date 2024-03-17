@@ -6,7 +6,7 @@ import AddTaskModal from './components/AddTaskModal'
 import { useNavigate } from 'react-router-dom'
 import { ExitIcon } from '@radix-ui/react-icons'
 import {
-    UseMutationResult,
+    type UseMutationResult,
     useMutation,
     useQuery,
     useQueryClient,
@@ -14,7 +14,7 @@ import {
 import { createListApi, deleteListApi, fetchLists, switchListOrderApi, updateListApi } from '../../api/listApi'
 import { createTaskApi, deleteTask, fetchTasks, toogleTaskApi, updateTaskApi, switchTaskOrderApi } from '../../api/taskApi'
 import { HomePageContext } from './HomePageContext'
-import { List, NewTask, SwitchListOrderPayload, SwitchTaskOrderPayload, Task } from '../../types'
+import type { List, NewTask, SwitchListOrderPayload, SwitchTaskOrderPayload, Task } from '../../types'
 import { getToken, removeToken } from '../../functions'
 import { logoutApi } from '../../api/userApi'
 
@@ -129,7 +129,7 @@ function HomePage() {
         if (!isPendingLists && !selectedListId && lists.length > 0) {
             setSelectedListId(lists[0].id)
         }
-    }, [isPendingLists, setSelectedListId, lists, selectedListId])
+    }, [isPendingLists, lists, selectedListId])
 
     useEffect(() => {
         if (!token) {

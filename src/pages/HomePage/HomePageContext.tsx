@@ -1,6 +1,7 @@
-import React, { createContext } from 'react'
-import { Task, List, NewTask, SwitchTaskOrderPayload, SwitchListOrderPayload } from '../../types'
-import { UseMutationResult } from '@tanstack/react-query'
+import type React from 'react'
+import { createContext } from 'react'
+import type { Task, List, NewTask, SwitchTaskOrderPayload, SwitchListOrderPayload } from '../../types'
+import type { UseMutationResult } from '@tanstack/react-query'
 
 interface HomePageContextType {
     lists: List[]

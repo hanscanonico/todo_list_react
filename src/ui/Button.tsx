@@ -1,6 +1,6 @@
 import React from 'react';
 import { getColorClassName } from './functions'
-import { Color } from './constants'
+import type { Color } from './constants'
 
 interface Props {
     onClick?: () => void
