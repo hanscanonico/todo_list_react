@@ -49,7 +49,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",
     "@biomejs/biome": "1.6.1",
-    "@flydotio/dockerfile": "^0.5.2",
+    "@flydotio/dockerfile": "^0.5.3",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.5.12",
