@@ -70,3 +70,26 @@ export const logoutApi = async (token: string) => {
         console.error('Logout failed:', error)
     }
 }
+
+export const resetPasswordApi = async (email: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: {
+                    email: email,
+                }
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+    } catch (error) {
+        console.error('Reset password failed:', error)
+    }
+}

@@ -15,7 +15,7 @@ interface Props {
 }
 
 function Button({ onClick, name, fullWidth, type, color = 'primary', px = 4, py = 2, mr = 0, ml = 0 }: Props) {
-    const defaultClassName = "text-white font-bold rounded flex items-center justify-center transition duration-300 ease-in-out"
+    const defaultClassName = "text-white font-bold rounded justify-center transition duration-300 ease-in-out"
     const defaultPadding = `py-${py} px-${px}`
     const defaultMargin = `mr-${mr} ml-${ml}`
     const colorClassName = getColorClassName(color)
